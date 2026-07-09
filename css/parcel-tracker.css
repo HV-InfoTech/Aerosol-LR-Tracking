@@ -9,6 +9,9 @@ table.alt-tracking-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 6%;
+    /* Fixed layout distributes columns evenly (however many there are) instead of letting
+       one long cell (e.g. a multi-invoice-number list) stretch the whole table wider. */
+    table-layout: fixed;
 }
 
 /* Table header styling */
@@ -21,6 +24,8 @@ table.alt-tracking-table thead th {
 table.alt-tracking-table thead th {
     border: 1px solid #ccc;
     text-align: center !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Center align table body content */
@@ -28,7 +33,9 @@ table.alt-tracking-table tbody td {
     text-align: center;
     padding: 8px;
     border: 1px solid #ddd;
-    width: 10%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 /* Live location link — fixed styling so it doesn't inherit the host theme's default link color */
