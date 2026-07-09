@@ -1,0 +1,124 @@
+
+/* Wrap table in a responsive container */
+.alt-tracking-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table.alt-tracking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 6%;
+}
+
+/* Table header styling */
+table.alt-tracking-table thead tr,
+table.alt-tracking-table thead th {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+table.alt-tracking-table thead th {
+    border: 1px solid #ccc;
+    text-align: center !important;
+}
+
+/* Center align table body content */
+table.alt-tracking-table tbody td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    width: 10%;
+}
+
+/* Live location link — fixed styling so it doesn't inherit the host theme's default link color */
+table.alt-tracking-table a.alt-live-location-link {
+    color: #0F6BC3 !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+table.alt-tracking-table a.alt-live-location-link:hover,
+table.alt-tracking-table a.alt-live-location-link:focus {
+    text-decoration: underline;
+}
+
+/* Responsive Form Styling */
+#parcel-tracker-form {
+    display: inline-flex;
+    /* flex-wrap: wrap; */
+    gap: 10px;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+/* Input fields */
+input[type="text"] {
+    width: 90%;
+    margin: auto 2% !important;
+}
+select[name="company_name"] {
+    width: 100%;
+    margin: auto 2% !important;
+}
+
+/* Submit button */
+button[type="submit"] {
+    background-color: #0F6BC3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    #parcel-tracker-form {
+        display: inline-flex;
+        text-align: center;
+    }
+
+    input[type="text"], select[name="company_name"] {
+        width: 80% !important;
+        margin: 5px auto !important;
+        display: block;
+    }
+
+    /* Stack the tracking result table into label/value cards instead of scrolling sideways */
+    table.alt-tracking-table thead {
+        display: none !important;
+    }
+
+    table.alt-tracking-table,
+    table.alt-tracking-table tbody,
+    table.alt-tracking-table tr,
+    table.alt-tracking-table td {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    table.alt-tracking-table tr {
+        margin-bottom: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    table.alt-tracking-table td {
+        text-align: left !important;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    table.alt-tracking-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Label sits above its value as its own line — avoids overlap when either wraps */
+    table.alt-tracking-table td::before {
+        content: attr(data-label);
+        display: block !important;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+}

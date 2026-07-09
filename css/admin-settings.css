@@ -1,0 +1,18 @@
+#alt-mapping-table input[type="text"] {
+    width: 95%;
+}
+
+#alt-mapping-table td {
+    vertical-align: middle;
+}
+
+#alt-mapping-table .alt-center {
+    text-align: center;
+}
+
+.alt-remove-row {
+    color: #b32d2e;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
