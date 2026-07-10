@@ -153,6 +153,16 @@ function alt_render_settings_page()
     ?>
     <div class="wrap">
         <h1>Aerosol LR Tracking Settings</h1>
+
+        <div class="notice notice-info" style="padding: 12px;">
+            <p style="margin: 0;">
+                <strong>How to display the tracking form:</strong> add the shortcode
+                <code>[parcel_tracker]</code> to any page or post &mdash; e.g. create a "Track Your Shipment"
+                page and paste that shortcode into it. The form and result table will appear wherever the
+                shortcode is placed.
+            </p>
+        </div>
+
         <form method="post">
             <?php wp_nonce_field('alt_save_settings', 'alt_settings_nonce'); ?>
 
