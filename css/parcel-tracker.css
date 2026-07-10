@@ -77,6 +77,42 @@ button[type="submit"] {
     cursor: pointer;
 }
 
+button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Loading state shown while the tracking lookup is in progress */
+.alt-tracker-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.alt-tracker-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ddd;
+    border-top-color: #0F6BC3;
+    border-radius: 50%;
+    animation: alt-tracker-spin 0.8s linear infinite;
+}
+
+@keyframes alt-tracker-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.alt-tracker-error {
+    padding: 16px 0;
+    color: #b32d2e;
+}
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     #parcel-tracker-form {

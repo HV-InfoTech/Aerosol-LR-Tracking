@@ -196,6 +196,9 @@ function alt_track_parcel()
         if ($mapping['only_if_status'] !== '' && strcasecmp($mapping['only_if_status'], $status) !== 0) {
             continue;
         }
+        if (!empty($mapping['hide_if_status']) && strcasecmp($mapping['hide_if_status'], $status) === 0) {
+            continue;
+        }
         $columns[] = $mapping;
     }
 

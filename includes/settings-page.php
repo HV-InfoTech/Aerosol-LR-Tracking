@@ -13,7 +13,7 @@ function alt_default_settings()
             array('label' => 'Package', 'field1' => 'Package', 'field2' => '', 'separator' => '', 'is_date' => false, 'only_if_status' => ''),
             array('label' => 'Invoice No', 'field1' => 'PartyInvoiceNo', 'field2' => '', 'separator' => '', 'is_date' => false, 'only_if_status' => ''),
             array('label' => 'Vehicle No', 'field1' => 'TruckNo', 'field2' => '', 'separator' => '', 'is_date' => false, 'only_if_status' => ''),
-            array('label' => 'Current Location', 'field1' => 'CurrentLocation', 'field2' => '', 'separator' => '', 'is_date' => false, 'only_if_status' => '', 'live_location' => true),
+            array('label' => 'Current Location', 'field1' => 'CurrentLocation', 'field2' => '', 'separator' => '', 'is_date' => false, 'only_if_status' => '', 'hide_if_status' => 'Delivered', 'live_location' => true),
             array('label' => 'Vehicle Tracking Entry Status', 'field1' => 'Status', 'field2' => '', 'separator' => '', 'is_date' => false, 'only_if_status' => ''),
             array('label' => 'Receipt Date', 'field1' => 'ReceiptDate', 'field2' => '', 'separator' => '', 'is_date' => true, 'only_if_status' => 'Delivered'),
         ),
@@ -103,6 +103,7 @@ function alt_maybe_save_settings()
                 'separator' => isset($row['separator']) ? sanitize_text_field(wp_unslash($row['separator'])) : '-',
                 'is_date' => !empty($row['is_date']),
                 'only_if_status' => isset($row['only_if_status']) ? sanitize_text_field(wp_unslash($row['only_if_status'])) : '',
+                'hide_if_status' => isset($row['hide_if_status']) ? sanitize_text_field(wp_unslash($row['hide_if_status'])) : '',
                 'live_location' => !empty($row['live_location']),
             );
         }
@@ -133,6 +134,7 @@ function alt_render_mapping_row($i, $row)
         <td><input type="text" name="mapping[<?php echo esc_attr($i); ?>][separator]" value="<?php echo esc_attr($row['separator']); ?>" size="3"></td>
         <td class="alt-center"><input type="checkbox" name="mapping[<?php echo esc_attr($i); ?>][is_date]" value="1" <?php checked(!empty($row['is_date'])); ?>></td>
         <td><input type="text" name="mapping[<?php echo esc_attr($i); ?>][only_if_status]" value="<?php echo esc_attr($row['only_if_status']); ?>" placeholder="e.g. Delivered"></td>
+        <td><input type="text" name="mapping[<?php echo esc_attr($i); ?>][hide_if_status]" value="<?php echo esc_attr(isset($row['hide_if_status']) ? $row['hide_if_status'] : ''); ?>" placeholder="e.g. Delivered"></td>
         <td class="alt-center"><input type="checkbox" name="mapping[<?php echo esc_attr($i); ?>][live_location]" value="1" <?php checked(!empty($row['live_location'])); ?>></td>
         <td class="alt-center"><button type="button" class="button-link alt-remove-row" aria-label="Remove field">&times;</button></td>
     </tr>
@@ -190,7 +192,8 @@ function alt_render_settings_page()
             <p class="description">
                 Choose which columns appear on the tracking result table and which Aerosol API field each column pulls its value from.
                 You can combine two fields with a separator (e.g. Branch Code + Challan No), format a value as a date, or only show a
-                column when Status equals a specific value (e.g. show "Receipt Date" only when Status is "Delivered").<br>
+                column when Status equals a specific value (e.g. show "Receipt Date" only when Status is "Delivered"), or hide a
+                column for a specific status (e.g. hide "Current Location" once Status is "Delivered").<br>
                 Check <strong>Live Location Link</strong> on a column to have it show a live GPS location (as a clickable Google Maps link)
                 fetched from the Aerosol Vehicle Live Status API whenever Status is "In Transit", falling back to that column's normal
                 value otherwise.
@@ -211,6 +214,7 @@ function alt_render_settings_page()
                         <th>Separator</th>
                         <th>Format as Date</th>
                         <th>Only show if Status =</th>
+                        <th>Hide if Status =</th>
                         <th>Live Location Link</th>
                         <th></th>
                     </tr>
@@ -223,7 +227,7 @@ function alt_render_settings_page()
             </table>
             <p><button type="button" class="button" id="alt-add-mapping-row">+ Add Field</button></p>
 
-            <template id="alt-mapping-row-template"><?php echo alt_render_mapping_row('__INDEX__', array('label' => '', 'field1' => '', 'field2' => '', 'separator' => '-', 'is_date' => false, 'only_if_status' => '', 'live_location' => false)); ?></template>
+            <template id="alt-mapping-row-template"><?php echo alt_render_mapping_row('__INDEX__', array('label' => '', 'field1' => '', 'field2' => '', 'separator' => '-', 'is_date' => false, 'only_if_status' => '', 'hide_if_status' => '', 'live_location' => false)); ?></template>
 
             <?php submit_button('Save Settings'); ?>
         </form>
