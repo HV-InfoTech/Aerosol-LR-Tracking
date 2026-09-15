@@ -5,6 +5,7 @@ function alt_default_settings()
 {
     return array(
         'api_domain' => '',
+        'api_key' => '',
         'show_branch_code' => false,
         'field_mappings' => array(
             array('label' => 'Docket No', 'field1' => 'FromBranchCode', 'field2' => 'ChallanNo', 'separator' => '-', 'is_date' => false, 'only_if_status' => ''),
@@ -86,6 +87,7 @@ function alt_maybe_save_settings()
     }
 
     $api_domain = isset($_POST['api_domain']) ? rtrim(sanitize_text_field(wp_unslash($_POST['api_domain'])), '/') : '';
+    $api_key = isset($_POST['api_key']) ? sanitize_text_field(wp_unslash($_POST['api_key'])) : '';
     $show_branch_code = !empty($_POST['show_branch_code']);
 
     $field_mappings = array();
@@ -111,6 +113,7 @@ function alt_maybe_save_settings()
 
     update_option('alt_settings', array(
         'api_domain' => $api_domain,
+        'api_key' => $api_key,
         'show_branch_code' => $show_branch_code,
         'field_mappings' => $field_mappings,
     ));
@@ -181,6 +184,19 @@ function alt_render_settings_page()
                         <?php if (empty($settings['api_domain'])) : ?>
                             <p class="description" style="color:#b32d2e;">No API domain configured yet &mdash; tracking lookups will not work until this is set.</p>
                         <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="alt_api_key">API Key</label></th>
+                    <td>
+                        <input type="text" id="alt_api_key" name="api_key" class="large-text code"
+                               placeholder="Leave blank if not issued one"
+                               value="<?php echo esc_attr($settings['api_key']); ?>">
+                        <p class="description">
+                            Some clients' Aerosol APIs now require an <code>Authorization: Bearer &lt;key&gt;</code> header.
+                            Enter the key Aerosol provided for this client here. Leave this blank for clients whose API
+                            doesn't require it yet &mdash; the header will simply be omitted, exactly as before.
+                        </p>
                     </td>
                 </tr>
                 <tr>

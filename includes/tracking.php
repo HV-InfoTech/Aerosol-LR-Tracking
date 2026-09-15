@@ -50,18 +50,32 @@ function alt_build_live_status_url($domain, $veh_no, $date)
     return $domain . $path;
 }
 
+// Builds the wp_remote_get() args array, adding the Aerosol Authorization header
+// only when an API key is configured — clients not yet migrated to the new
+// Aerosol security model keep working exactly as before with no header sent.
+function alt_http_args($api_key, $extra_args = array())
+{
+    $args = array_merge(array('timeout' => 15), $extra_args);
+    if (!empty($api_key)) {
+        $args['headers'] = array('Authorization' => 'Bearer ' . $api_key);
+    }
+    return $args;
+}
+
 // Looks up the vehicle's current GPS position for "In Transit" LRs.
 // Returns array('text' => location label, 'lat' => float, 'lng' => float) or null if unavailable.
-function alt_fetch_live_location($domain, $veh_no)
+function alt_fetch_live_location($domain, $veh_no, $api_key)
 {
     if (empty($veh_no)) {
         alt_debug_comment('live location skipped', array('reason' => 'no vehicle number available on this LR'));
         return null;
     }
 
-    $today = date('dmY');
+    // Aerosol's date format for this endpoint is d/m/Y (e.g. "15/09/2026") — ddmmyyyy
+    // without separators now throws a server-side error since their security update.
+    $today = date('d/m/Y');
     $url = alt_build_live_status_url($domain, $veh_no, $today);
-    $response = wp_remote_get($url, array('timeout' => 15));
+    $response = wp_remote_get($url, alt_http_args($api_key));
 
     if (is_wp_error($response)) {
         alt_debug_comment('live location request failed', array(
@@ -158,7 +172,7 @@ function alt_track_parcel()
 
     if ($body === false) {
         // WordPress' default HTTP timeout (5s) is too short for some Aerosol APIs to respond within.
-        $response = wp_remote_get($api_url, array('timeout' => 20));
+        $response = wp_remote_get($api_url, alt_http_args($settings['api_key'], array('timeout' => 20)));
 
         if (is_wp_error($response)) {
             echo 'Error: ' . esc_html($response->get_error_message());
@@ -210,7 +224,7 @@ function alt_track_parcel()
     $live_location = null;
     if (strcasecmp($status, 'In Transit') === 0) {
         $veh_no = !empty($row['VehNo']) ? $row['VehNo'] : (!empty($row['TruckNo']) ? $row['TruckNo'] : '');
-        $live_location = alt_fetch_live_location($settings['api_domain'], $veh_no);
+        $live_location = alt_fetch_live_location($settings['api_domain'], $veh_no, $settings['api_key']);
     }
 
     $output = '<div class="alt-tracking-table-wrap">';
