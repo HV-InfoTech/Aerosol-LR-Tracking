@@ -75,6 +75,13 @@ button[type="submit"] {
     color: #fff;
     border: none;
     cursor: pointer;
+    /* Defensive sizing so host themes that style generic <button> elements as small
+       icon buttons (e.g. Betheme) don't squash this into a tiny box with wrapped text. */
+    padding: 10px 24px;
+    white-space: nowrap;
+    min-width: max-content;
+    height: auto;
+    line-height: normal;
 }
 
 button[type="submit"]:disabled {
