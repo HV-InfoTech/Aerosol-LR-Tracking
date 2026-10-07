@@ -3,7 +3,7 @@
 Plugin Name: Aerosol LR Tracking
 Plugin URI: https://hvinfotech.com/
 Description: A custom plugin to track parcels/LRs using the Aerosol ERP API.
-Version: 1.0.0
+Version: 1.1.0
 Author: HV InfoTech
 Author URI: https://hvinfotech.com/
 
@@ -22,6 +22,21 @@ define('ALT_BRANCH_API_PATH', '/api/BranchDetailApi.ashx?apiname=BranchDetails')
 require_once ALT_PLUGIN_DIR . 'includes/settings-page.php';
 require_once ALT_PLUGIN_DIR . 'includes/tracking.php';
 require_once ALT_PLUGIN_DIR . 'includes/branches.php';
+
+// Auto-updates straight from GitHub (this plugin isn't on WordPress.org) — each client
+// site checks the repo's tags for a newer version than the "Version:" header above.
+if (file_exists(ALT_PLUGIN_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php')) {
+    require_once ALT_PLUGIN_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php';
+
+    // Uses each GitHub Release's tag (e.g. "1.1.0") vs. this file's "Version:" header above
+    // to detect updates — no release zip asset to build/upload, PUC packages the tagged
+    // source itself. Tag + "Version:" header must match exactly for this to trigger.
+    YahnisElsts\PluginUpdateChecker\v5p7\PucFactory::buildUpdateChecker(
+        'https://github.com/HV-InfoTech/Aerosol-LR-Tracking/',
+        __FILE__,
+        'aerosol-lr-tracking'
+    );
+}
 
 // Shortcode to display the tracking form
 function parcel_tracker_form()
