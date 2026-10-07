@@ -1,0 +1,29 @@
+/* Branch list search box */
+.alt-branch-search-wrap {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.alt-branch-search {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Address/name columns read better left-aligned than the tracking table's centered style */
+table.alt-branch-table tbody td {
+    text-align: left;
+}
+
+table.alt-branch-table thead th {
+    text-align: left !important;
+}
+
+@media (max-width: 768px) {
+    table.alt-branch-table td[data-label] {
+        text-align: left !important;
+    }
+}

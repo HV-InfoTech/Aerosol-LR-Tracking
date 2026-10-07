@@ -158,11 +158,16 @@ function alt_render_settings_page()
         <h1>Aerosol LR Tracking Settings</h1>
 
         <div class="notice notice-info" style="padding: 12px;">
-            <p style="margin: 0;">
+            <p style="margin: 0 0 8px;">
                 <strong>How to display the tracking form:</strong> add the shortcode
                 <code>[parcel_tracker]</code> to any page or post &mdash; e.g. create a "Track Your Shipment"
                 page and paste that shortcode into it. The form and result table will appear wherever the
                 shortcode is placed.
+            </p>
+            <p style="margin: 0;">
+                <strong>How to display the branch list:</strong> add the shortcode
+                <code>[branch_list]</code> to any page or post &mdash; e.g. create a "Our Branches" page.
+                Uses the same Aerosol API Domain and API Key configured below.
             </p>
         </div>
 

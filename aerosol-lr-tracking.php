@@ -17,9 +17,11 @@ define('ALT_PLUGIN_URL', plugin_dir_url(__FILE__));
 // Fixed Aerosol API path/query — only the domain differs between client sites.
 define('ALT_API_PATH', '/api/LRInquiry.ashx?apiname=lrinquiry&code={code}&lrno={lrno}');
 define('ALT_LIVE_STATUS_PATH', '/api/VehicleLiveStatusApi.ashx?apiname=VehicleLiveStatus&Veh_No={vehno}&FromDate={date}&ToDate={date}');
+define('ALT_BRANCH_API_PATH', '/api/BranchDetailApi.ashx?apiname=BranchDetails');
 
 require_once ALT_PLUGIN_DIR . 'includes/settings-page.php';
 require_once ALT_PLUGIN_DIR . 'includes/tracking.php';
+require_once ALT_PLUGIN_DIR . 'includes/branches.php';
 
 // Shortcode to display the tracking form
 function parcel_tracker_form()
@@ -60,3 +62,16 @@ function parcel_tracker_enqueue_scripts()
     wp_enqueue_style('parcel-tracker-css', ALT_PLUGIN_URL . 'css/parcel-tracker.css', array(), file_exists($css_path) ? filemtime($css_path) : false);
 }
 add_action('wp_enqueue_scripts', 'parcel_tracker_enqueue_scripts');
+
+// Enqueue assets for the [aerosol_branches] shortcode
+function alt_branch_list_enqueue_scripts()
+{
+    $js_path = ALT_PLUGIN_DIR . 'js/branch-list.js';
+    $css_path = ALT_PLUGIN_DIR . 'css/branch-list.css';
+
+    wp_enqueue_script('alt-branch-list-js', ALT_PLUGIN_URL . 'js/branch-list.js', array(), file_exists($js_path) ? filemtime($js_path) : false, true);
+
+    // Extends .alt-tracking-table styles from parcel-tracker.css, so load after it.
+    wp_enqueue_style('alt-branch-list-css', ALT_PLUGIN_URL . 'css/branch-list.css', array('parcel-tracker-css'), file_exists($css_path) ? filemtime($css_path) : false);
+}
+add_action('wp_enqueue_scripts', 'alt_branch_list_enqueue_scripts');
