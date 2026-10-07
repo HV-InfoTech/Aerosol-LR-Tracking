@@ -7,11 +7,14 @@
 
 table.alt-tracking-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse !important;
     margin-bottom: 6%;
     /* Fixed layout distributes columns evenly (however many there are) instead of letting
        one long cell (e.g. a multi-invoice-number list) stretch the whole table wider. */
     table-layout: fixed;
+    /* Defensive borders — host themes often reset table/td/th borders globally, which
+       strips the grid lines (e.g. no right/bottom border) unless we force them back. */
+    border: 1px solid #ddd !important;
 }
 
 /* Table header styling */
@@ -22,7 +25,7 @@ table.alt-tracking-table thead th {
 }
 
 table.alt-tracking-table thead th {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc !important;
     text-align: center !important;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -32,7 +35,7 @@ table.alt-tracking-table thead th {
 table.alt-tracking-table tbody td {
     text-align: center;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd !important;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;

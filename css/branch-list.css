@@ -15,7 +15,7 @@
 
 /* Address/name columns read better left-aligned than the tracking table's centered style */
 table.alt-branch-table tbody td {
-    text-align: left;
+    text-align: left !important;
 }
 
 table.alt-branch-table thead th {
